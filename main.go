@@ -10,16 +10,16 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"time"
 )
 
-//It have 3 levels this is why we using 3 [][][]
+// It have 3 levels this is why we using 3 [][][]
 type UnmarshalInterface [][][]interface{}
 
-
-//From what language you want to translate -- To what language you want to translate
+// From what language you want to translate -- To what language you want to translate
 var (
 	from = "de"
-	to = "en"
+	to   = "en"
 )
 
 func main() {
@@ -51,7 +51,6 @@ func main() {
 
 }
 
-
 func translateText(text string) error {
 
 	//Escaped text (to make valid url request)
@@ -63,13 +62,13 @@ func translateText(text string) error {
 	//Url with appended encryptet text
 	baseurl := trurl + enctext
 
-
 	//Simple GET request to Google server
 	req, err := http.NewRequest(http.MethodGet, baseurl, nil)
 	if err != nil {
 		return err
 	}
 
+	time.Sleep(time.Second * 1)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
@@ -95,7 +94,6 @@ func translateText(text string) error {
 	if _, err := f.WriteString(ui[0][0][0].(string) + "\n"); err != nil {
 		return err
 	}
-
 
 	return nil
 }
